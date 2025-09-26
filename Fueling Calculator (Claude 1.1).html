@@ -1,0 +1,621 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.6">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;Endurance Fuel Planner&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://unpkg.com/react@18/umd/react.development.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://unpkg.com/@babel/standalone/babel.min.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="root"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script type="text/babel"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const { useState } = React;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const { Calculator, Droplets, Zap, Clock, Thermometer, User, Target } = lucide;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const EnduranceFuelPlanner = () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const [formData, setFormData] = useState({</p>
+<p class="p1"><span class="Apple-converted-space">                </span>activity: 'running',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>duration: 120,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>intensity: 'zone2',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>temperature: 68,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>humidity: 50,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>bodyWeight: 154,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>sweatRate: 'medium',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>gutTolerance: 'medium'</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const [requirements, setRequirements] = useState(null);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const [selectedProducts, setSelectedProducts] = useState([]);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const [activeTab, setActiveTab] = useState('calculator');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Sports nutrition products database</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const products = {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>liquids: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Maurten Drink Mix 160', carbs: 40, sodium: 200, calories: 160, servingSize: '500ml', brand: 'Maurten' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'SIS Go Energy + Electrolyte', carbs: 36, sodium: 200, calories: 142, servingSize: '500ml', brand: 'SIS' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Skratch Labs Sport Drink', carbs: 20, sodium: 380, calories: 80, servingSize: '500ml', brand: 'Skratch Labs' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Precision Hydration PH 1000', carbs: 30, sodium: 1000, calories: 120, servingSize: '500ml', brand: 'Precision Hydration' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Tailwind Endurance Fuel', carbs: 25, sodium: 303, calories: 100, servingSize: '500ml', brand: 'Tailwind' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Tailwind Recovery Mix', carbs: 32, sodium: 280, calories: 200, servingSize: '500ml', brand: 'Tailwind' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Tailwind Rebuild Recovery', carbs: 11, sodium: 610, calories: 100, servingSize: '500ml', brand: 'Tailwind' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Untapped Maple Sports Drink', carbs: 24, sodium: 250, calories: 100, servingSize: '500ml', brand: 'Untapped' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Infinit Custom Mix', carbs: 35, sodium: 400, calories: 140, servingSize: '500ml', brand: 'Infinit' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Gatorade Endurance', carbs: 21, sodium: 300, calories: 80, servingSize: '500ml', brand: 'Gatorade' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'UCAN Edge', carbs: 15, sodium: 250, calories: 90, servingSize: '500ml', brand: 'UCAN' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'First Endurance EFS', carbs: 30, sodium: 275, calories: 120, servingSize: '500ml', brand: 'First Endurance' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Nuun Sport + Caffeine', carbs: 1, sodium: 300, calories: 10, servingSize: '500ml', brand: 'Nuun' }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>],</p>
+<p class="p1"><span class="Apple-converted-space">                </span>gelsandsolids: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>// Gels</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Maurten Gel 100', carbs: 25, sodium: 50, calories: 100, servingSize: '1 gel', brand: 'Maurten' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'SIS Go Isotonic Energy Gel', carbs: 22, sodium: 50, calories: 87, servingSize: '1 gel', brand: 'SIS' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'GU Energy Gel', carbs: 23, sodium: 50, calories: 100, servingSize: '1 gel', brand: 'GU' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Clif Shot Energy Gel', carbs: 24, sodium: 85, calories: 100, servingSize: '1 gel', brand: 'Clif' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Hammer Gel', carbs: 23, sodium: 20, calories: 90, servingSize: '1 gel', brand: 'Hammer' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'PowerBar PowerGel', carbs: 28, sodium: 200, calories: 110, servingSize: '1 gel', brand: 'PowerBar' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Honey Stinger Gel', carbs: 24, sodium: 50, calories: 100, servingSize: '1 gel', brand: 'Honey Stinger' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Spring Energy Gel', carbs: 22, sodium: 80, calories: 96, servingSize: '1 gel', brand: 'Spring Energy' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'UCAN Edge Gel', carbs: 20, sodium: 55, calories: 80, servingSize: '1 gel', brand: 'UCAN' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Torq Energy Gel', carbs: 30, sodium: 40, calories: 117, servingSize: '1 gel', brand: 'Torq' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Untapped Maple Syrup Packet', carbs: 14, sodium: 2, calories: 56, servingSize: '1 packet', brand: 'Untapped' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>// Solid Foods</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Clif Bar Energy Bar', carbs: 44, sodium: 250, calories: 250, servingSize: '1 bar', brand: 'Clif' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'PowerBar Energize', carbs: 45, sodium: 190, calories: 230, servingSize: '1 bar', brand: 'PowerBar' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Bonk Breaker Energy Bar', carbs: 20, sodium: 125, calories: 130, servingSize: '1 bar', brand: 'Bonk Breaker' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Skratch Labs Anytime Bar', carbs: 20, sodium: 140, calories: 130, servingSize: '1 bar', brand: 'Skratch Labs' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Honey Stinger Waffle', carbs: 21, sodium: 60, calories: 140, servingSize: '1 waffle', brand: 'Honey Stinger' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Maurten Solid 160', carbs: 40, sodium: 50, calories: 160, servingSize: '1 bar', brand: 'Maurten' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Feed Zone Portables Rice Cake', carbs: 30, sodium: 200, calories: 130, servingSize: '1 cake', brand: 'Skratch Labs' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Näak Ultra Energy Bar', carbs: 35, sodium: 320, calories: 190, servingSize: '1 bar', brand: 'Näak' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Torq Explore Bar', carbs: 30, sodium: 100, calories: 140, servingSize: '1 bar', brand: 'Torq' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'First Endurance EFS Bar', carbs: 26, sodium: 180, calories: 140, servingSize: '1 bar', brand: 'First Endurance' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Untapped Maple &amp; Sea Salt Waffle', carbs: 22, sodium: 150, calories: 130, servingSize: '1 waffle', brand: 'Untapped' }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>],</p>
+<p class="p1"><span class="Apple-converted-space">                </span>electrolytes: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'SaltStick Caps', carbs: 0, sodium: 215, potassium: 63, magnesium: 11, calories: 0, servingSize: '1 capsule', brand: 'SaltStick' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'SaltStick FastChews', carbs: 2, sodium: 50, potassium: 15, magnesium: 3, calories: 10, servingSize: '1 chew', brand: 'SaltStick' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'LMNT Electrolyte Mix', carbs: 0, sodium: 1000, potassium: 200, magnesium: 60, calories: 0, servingSize: '1 packet', brand: 'LMNT' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Nuun Electrolytes', carbs: 1, sodium: 300, potassium: 150, magnesium: 25, calories: 10, servingSize: '1 tablet', brand: 'Nuun' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Liquid IV Electrolyte Multiplier', carbs: 11, sodium: 500, potassium: 370, magnesium: 0, calories: 45, servingSize: '1 packet', brand: 'Liquid IV' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Precision Hydration PH 1500', carbs: 0, sodium: 1500, potassium: 0, magnesium: 0, calories: 0, servingSize: '1 tablet', brand: 'Precision Hydration' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Base Electrolyte Powder', carbs: 0, sodium: 320, potassium: 100, magnesium: 60, calories: 0, servingSize: '1 scoop', brand: 'Base Performance' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Skratch Labs Hydration Mix', carbs: 0, sodium: 380, potassium: 39, magnesium: 12, calories: 0, servingSize: '1 packet', brand: 'Skratch Labs' }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>],</p>
+<p class="p1"><span class="Apple-converted-space">                </span>wholefoods: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Banana (medium)', carbs: 27, sodium: 1, calories: 105, servingSize: '1 banana', brand: 'Whole Food' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Dates (3 pieces)', carbs: 20, sodium: 1, calories: 80, servingSize: '3 dates', brand: 'Whole Food' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Fig Bars (2)', carbs: 22, sodium: 100, calories: 110, servingSize: '2 bars', brand: 'Whole Food' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Rice with Salt (1/2 cup)', carbs: 30, sodium: 300, calories: 130, servingSize: '1/2 cup', brand: 'Whole Food' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Sweet Potato (small)', carbs: 20, sodium: 7, calories: 90, servingSize: '1 potato', brand: 'Whole Food' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Oatmeal with Salt (1/2 cup)', carbs: 25, sodium: 200, calories: 140, servingSize: '1/2 cup', brand: 'Whole Food' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'White Bread + Jam (1 slice)', carbs: 30, sodium: 150, calories: 140, servingSize: '1 slice', brand: 'Whole Food' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Pretzels (1 oz)', carbs: 22, sodium: 486, calories: 108, servingSize: '1 oz', brand: 'Whole Food' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Sports Drink Homemade', carbs: 15, sodium: 250, calories: 60, servingSize: '500ml', brand: 'Homemade' },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{ name: 'Maple Syrup (1 tbsp)', carbs: 13, sodium: 2, calories: 52, servingSize: '1 tbsp', brand: 'Whole Food' }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Calculate nutritional requirements based on latest sports science</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const calculateRequirements = () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const durationHours = formData.duration / 60;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Convert weight from lbs to kg for calculations</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const weightKg = formData.bodyWeight / 2.205;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Carbohydrate requirements (based on 2019 IOC Consensus Statement)</p>
+<p class="p1"><span class="Apple-converted-space">                </span>let carbsPerHour;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (formData.duration &lt;= 60) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>carbsPerHour = 30; // Up to 1 hour</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} else if (formData.duration &lt;= 150) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>carbsPerHour = 60; // 1-2.5 hours</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>carbsPerHour = 90; // &gt;2.5 hours (dual source carbs recommended)</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Adjust for intensity zones</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const intensityMultiplier = {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>zone1: 0.6,<span class="Apple-converted-space">  </span>// Recovery</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>zone2: 0.8,<span class="Apple-converted-space">  </span>// Aerobic base</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>zone3: 1.0,<span class="Apple-converted-space">  </span>// Tempo</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>zone4: 1.2,<span class="Apple-converted-space">  </span>// Lactate threshold</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>zone5: 1.4 <span class="Apple-converted-space">  </span>// VO2 max</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}[formData.intensity];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>carbsPerHour *= intensityMultiplier;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const totalCarbs = carbsPerHour * durationHours;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Fluid requirements (based on sweat rate and environmental factors)</p>
+<p class="p1"><span class="Apple-converted-space">                </span>let fluidPerHour = 500; // Base ml/hour</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Temperature adjustment (convert F to C for calculation)</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const tempC = (formData.temperature - 32) * 5/9;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (tempC &gt; 25) fluidPerHour += (tempC - 25) * 20;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (tempC &lt; 10) fluidPerHour -= 100;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Humidity adjustment</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (formData.humidity &gt; 70) fluidPerHour += 100;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (formData.humidity &lt; 40) fluidPerHour -= 50;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Activity adjustment</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const activityMultiplier = {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>running: 1.2,</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>cycling: 1.0,</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>triathlon: 1.1</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}[formData.activity];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>fluidPerHour *= activityMultiplier;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Sweat rate adjustment</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const sweatMultiplier = {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>low: 0.8,</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>medium: 1.0,</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>high: 1.3</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}[formData.sweatRate];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>fluidPerHour *= sweatMultiplier;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const totalFluid = Math.round(fluidPerHour * durationHours);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Sodium requirements (based on typical sweat sodium losses)</p>
+<p class="p1"><span class="Apple-converted-space">                </span>let sodiumPerHour = 400; // mg/hour baseline</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Adjust for sweat rate and temperature</p>
+<p class="p1"><span class="Apple-converted-space">                </span>sodiumPerHour *= sweatMultiplier;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (tempC &gt; 25) sodiumPerHour += 100;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>const totalSodium = Math.round(sodiumPerHour * durationHours);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Additional electrolytes</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const potassiumPerHour = sodiumPerHour * 0.25; // K+ typically 1/4 of Na+</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const magnesiumPerHour = 50; // mg/hour</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>const totalPotassium = Math.round(potassiumPerHour * durationHours);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const totalMagnesium = Math.round(magnesiumPerHour * durationHours);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Caffeine recommendations (if desired)</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const caffeineRecommended = formData.duration &gt; 60 ? Math.round(3 * weightKg) : 0;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>return {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>duration: durationHours,</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>carbs: {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>perHour: Math.round(carbsPerHour),</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>total: Math.round(totalCarbs)</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>fluid: {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>perHour: Math.round(fluidPerHour),</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>total: totalFluid</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>sodium: {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>perHour: Math.round(sodiumPerHour),</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>total: totalSodium</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>potassium: {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>perHour: Math.round(potassiumPerHour),</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>total: totalPotassium</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>magnesium: {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>perHour: magnesiumPerHour,</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>total: totalMagnesium</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>caffeine: caffeineRecommended</p>
+<p class="p1"><span class="Apple-converted-space">                </span>};</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const handleCalculate = () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const reqs = calculateRequirements();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>setRequirements(reqs);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>setActiveTab('products');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const addProduct = (product, category, quantity = 1) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const newProduct = {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>...product,<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>category,<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>quantity,</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>id: Date.now() + Math.random() // Ensure unique ID</p>
+<p class="p1"><span class="Apple-converted-space">                </span>};</p>
+<p class="p1"><span class="Apple-converted-space">                </span>setSelectedProducts([...selectedProducts, newProduct]);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const updateProductQuantity = (id, quantity) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>setSelectedProducts(selectedProducts.map(p =&gt;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>p.id === id ? { ...p, quantity } : p</p>
+<p class="p1"><span class="Apple-converted-space">                </span>));</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const removeProduct = (id) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>setSelectedProducts(selectedProducts.filter(p =&gt; p.id !== id));</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const calculateTotals = () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return selectedProducts.reduce((totals, product) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const qty = product.quantity || 1;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>totals.carbs += (product.carbs || 0) * qty;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>totals.sodium += (product.sodium || 0) * qty;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>totals.calories += (product.calories || 0) * qty;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>return totals;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}, { carbs: 0, sodium: 0, calories: 0 });</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const totals = calculateTotals();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const ProductDropdown = ({ category, onAdd }) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const [selectedProduct, setSelectedProduct] = useState('');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const [quantity, setQuantity] = useState(1);</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>const handleAdd = () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (selectedProduct) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>const product = products[category].find(p =&gt; p.name === selectedProduct);</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>if (product) {</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>onAdd(product, category, quantity);</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>setSelectedProduct('');</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>setQuantity(1);</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>const getCategoryDisplayName = (cat) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>switch(cat) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>case 'gelsandsolids': return 'Gels &amp; Solid Foods';</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>case 'wholefoods': return 'Whole Foods';</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>case 'electrolytes': return 'Electrolyte Supplements';</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>default: return cat.charAt(0).toUpperCase() + cat.slice(1);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>return (</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;h4 className="font-medium text-gray-900 mb-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>{getCategoryDisplayName(category)}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div className="space-y-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;select</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>value={selectedProduct}</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>onChange={(e) =&gt; setSelectedProduct(e.target.value)}</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;option value=""&gt;Select a product...&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>{products[category].map((product, index) =&gt; (</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;option key={index} value={product.name}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>{product.name} - {product.carbs}g carbs, {product.sodium}mg sodium</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>{category === 'electrolytes' &amp;&amp; product.potassium ? `, ${product.potassium}mg potassium` : ''}</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>))}</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/select&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                            </span></p>
+<p class="p1"><span class="Apple-converted-space">                            </span>{selectedProduct &amp;&amp; (</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;div className="flex items-center space-x-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;label className="text-sm text-gray-600"&gt;Quantity:&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;input</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>type="number"</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>value={quantity}</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>onChange={(e) =&gt; setQuantity(parseInt(e.target.value) || 1)}</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>min="1"</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>max="20"</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>className="w-16 p-1 border border-gray-300 rounded-md text-center"</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;button</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>onClick={handleAdd}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>className="w-full bg-blue-600 text-white py-2 px-3 rounded-md text-sm hover:bg-blue-700 transition-colors"</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>Add to Plan</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>)}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>return (</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div className="max-w-6xl mx-auto p-6 bg-gray-50 min-h-screen"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 rounded-lg mb-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;h1 className="text-3xl font-bold mb-2"&gt;Endurance Fuel Planner&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p className="text-blue-100"&gt;Science-based nutrition planning for runners, cyclists &amp; triathletes&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{/* Tab Navigation */}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="flex space-x-4 mb-6 bg-white rounded-lg p-1 shadow-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;button</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>onClick={() =&gt; setActiveTab('calculator')}</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>className={`flex items-center space-x-2 px-4 py-2 rounded-md transition-colors ${</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>activeTab === 'calculator'<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>? 'bg-blue-100 text-blue-700'<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>: 'text-gray-600 hover:bg-gray-100'</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>}`}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;Calculator size={20} /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;span&gt;Calculate Needs&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;button</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>onClick={() =&gt; setActiveTab('products')}</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>className={`flex items-center space-x-2 px-4 py-2 rounded-md transition-colors ${</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>activeTab === 'products'<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>? 'bg-blue-100 text-blue-700'<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>: 'text-gray-600 hover:bg-gray-100'</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>}`}</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>disabled={!requirements}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;Target size={20} /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;span&gt;Select Products&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{activeTab === 'calculator' &amp;&amp; (</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div className="bg-white rounded-lg p-6 shadow-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;h2 className="text-2xl font-bold mb-6"&gt;Activity Details&lt;/h2&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                            </span></p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;label className="block text-sm font-medium text-gray-700 mb-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;Zap className="inline mr-2" size={16} /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>Activity Type</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;select</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>value={formData.activity}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>onChange={(e) =&gt; setFormData({...formData, activity: e.target.value})}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;option value="running"&gt;Running&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;option value="cycling"&gt;Cycling&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;option value="triathlon"&gt;Triathlon&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;label className="block text-sm font-medium text-gray-700 mb-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;Clock className="inline mr-2" size={16} /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>Duration (minutes)</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;input</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>type="number"</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>value={formData.duration}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>onChange={(e) =&gt; setFormData({...formData, duration: parseInt(e.target.value)})}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>min="30"</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>max="720"</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;label className="block text-sm font-medium text-gray-700 mb-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>Training Zone</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;select</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>value={formData.intensity}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>onChange={(e) =&gt; setFormData({...formData, intensity: e.target.value})}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;option value="zone1"&gt;Zone 1 (Recovery/Active Recovery)&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;option value="zone2"&gt;Zone 2 (Aerobic Base)&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;option value="zone3"&gt;Zone 3 (Tempo)&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;option value="zone4"&gt;Zone 4 (Lactate Threshold)&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;option value="zone5"&gt;Zone 5 (VO2 Max/Neuromuscular)&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;label className="block text-sm font-medium text-gray-700 mb-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;Thermometer className="inline mr-2" size={16} /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>Temperature (°F)</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;input</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>type="number"</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>value={formData.temperature}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>onChange={(e) =&gt; setFormData({...formData, temperature: parseInt(e.target.value)})}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>min="0"</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>max="120"</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;label className="block text-sm font-medium text-gray-700 mb-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;Droplets className="inline mr-2" size={16} /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>Humidity (%)</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;input</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>type="number"</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>value={formData.humidity}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>onChange={(e) =&gt; setFormData({...formData, humidity: parseInt(e.target.value)})}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>min="0"</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>max="100"</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;label className="block text-sm font-medium text-gray-700 mb-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;User className="inline mr-2" size={16} /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>Body Weight (lbs)</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;input</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>type="number"</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>value={formData.bodyWeight}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>onChange={(e) =&gt; setFormData({...formData, bodyWeight: parseInt(e.target.value)})}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>min="90"</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>max="350"</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;label className="block text-sm font-medium text-gray-700 mb-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>Sweat Rate</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;select</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>value={formData.sweatRate}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>onChange={(e) =&gt; setFormData({...formData, sweatRate: e.target.value})}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;option value="low"&gt;Low Sweater&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;option value="medium"&gt;Average Sweater&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;option value="high"&gt;Heavy Sweater&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;label className="block text-sm font-medium text-gray-700 mb-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>Gut Tolerance</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;select</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>value={formData.gutTolerance}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>onChange={(e) =&gt; setFormData({...formData, gutTolerance: e.target.value})}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;option value="sensitive"&gt;Sensitive&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;option value="medium"&gt;Average&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;option value="strong"&gt;Strong&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;button</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>onClick={handleCalculate}</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>className="mt-8 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105"</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>Calculate Nutrition Requirements</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/button&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                            </span>{requirements &amp;&amp; (</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div className="mt-8 bg-gradient-to-r from-green-50 to-blue-50 p-6 rounded-lg"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;h3 className="text-xl font-bold mb-4 text-gray-800"&gt;Your Nutrition Plan&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;div className="bg-white p-4 rounded-lg shadow-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div className="text-2xl font-bold text-green-600"&gt;{requirements.carbs.total}g&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div className="text-sm text-gray-600"&gt;Total Carbohydrates&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div className="text-xs text-gray-500"&gt;{requirements.carbs.perHour}g/hour&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;div className="bg-white p-4 rounded-lg shadow-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div className="text-2xl font-bold text-blue-600"&gt;{requirements.fluid.total}ml&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div className="text-sm text-gray-600"&gt;Total Fluid&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div className="text-xs text-gray-500"&gt;{requirements.fluid.perHour}ml/hour&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;div className="bg-white p-4 rounded-lg shadow-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div className="text-2xl font-bold text-orange-600"&gt;{requirements.sodium.total}mg&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div className="text-sm text-gray-600"&gt;Total Sodium&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div className="text-xs text-gray-500"&gt;{requirements.sodium.perHour}mg/hour&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;div className="bg-white p-4 rounded-lg shadow-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div className="text-2xl font-bold text-purple-600"&gt;{requirements.caffeine}mg&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div className="text-sm text-gray-600"&gt;Recommended Caffeine&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div className="text-xs text-gray-500"&gt;Optional boost&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>)}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>)}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{activeTab === 'products' &amp;&amp; requirements &amp;&amp; (</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div className="space-y-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>{/* Selected Products Summary */}</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>{selectedProducts.length &gt; 0 &amp;&amp; (</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div className="bg-white rounded-lg p-6 shadow-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;h3 className="text-xl font-bold mb-4"&gt;Your Selected Products&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;div className="space-y-2 mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>{selectedProducts.map((product) =&gt; (</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div key={product.id} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;div className="flex-1"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;span className="font-medium"&gt;{product.name}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;span className="text-sm text-gray-500 ml-2"&gt;({product.category})&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;div className="text-sm text-gray-600"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>Qty: {product.quantity} | {(product.carbs * product.quantity)}g carbs | {(product.sodium * product.quantity)}mg sodium</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;div className="flex items-center space-x-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;input</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>type="number"</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>value={product.quantity}</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>onChange={(e) =&gt; updateProductQuantity(product.id, parseInt(e.target.value) || 1)}</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>min="1"</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>max="20"</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>className="w-16 p-1 border border-gray-300 rounded text-center"</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;button</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>onClick={() =&gt; removeProduct(product.id)}</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>className="text-red-600 hover:text-red-800 px-2 py-1 rounded"</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>Remove</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>))}</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;div className="grid grid-cols-3 gap-4 p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;div className="text-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div className={`text-2xl font-bold ${(requirements.carbs.total - totals.carbs) &lt;= 0 ? 'text-green-600' : 'text-orange-600'}`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>{Math.max(0, requirements.carbs.total - totals.carbs)}g</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div className="text-sm text-gray-600"&gt;Carbs Remaining&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div className="text-xs text-gray-500"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>{totals.carbs}g of {requirements.carbs.total}g added</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;div className="text-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div className={`text-2xl font-bold ${(requirements.sodium.total - totals.sodium) &lt;= 0 ? 'text-green-600' : 'text-orange-600'}`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>{Math.max(0, requirements.sodium.total - totals.sodium)}mg</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div className="text-sm text-gray-600"&gt;Sodium Remaining&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div className="text-xs text-gray-500"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>{totals.sodium}mg of {requirements.sodium.total}mg added</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;div className="text-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div className="text-2xl font-bold text-purple-600"&gt;{totals.calories}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div className="text-sm text-gray-600"&gt;Total Calories&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div className="text-xs text-gray-500"&gt;Added so far&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>)}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                            </span>{/* Product Categories */}</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>{Object.entries(products).map(([category, items]) =&gt; (</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div key={category} className="bg-white rounded-lg p-6 shadow-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;ProductDropdown</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>category={category}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>onAdd={addProduct}</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>))}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>)}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>ReactDOM.render(&lt;EnduranceFuelPlanner /&gt;, document.getElementById('root'));</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
